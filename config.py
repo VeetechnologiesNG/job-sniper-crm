@@ -1,7 +1,9 @@
 """
 Job Sniper CRM Configuration
-Defines default daily quotas across Track A (Tech Support/IT/AI Ops), Track B (Basic Operations/Support),
-and Track C (Fast Writing & Crowdsource Gigs), keeping Wellfound at 6 and Himalayas at 3 + 3.
+Defines default daily quotas across Track A (Tech Support/IT/QA/AI Ops), Track B (Basic Operations & Customer Support),
+and Track C (Fast Writing & Crowdsource Gigs).
+Anchor: Wellfound = 6 (Track A), Himalayas = 3 (Track A) + 3 (Track B) = 6.
+Remotive is permanently removed and replaced with We Work Remotely (4/day) and Jobspresso (3/day).
 """
 import os
 
@@ -12,12 +14,13 @@ SCHEMA_PATH = os.path.join(BASE_DIR, "database", "schema.sql")
 
 # CV Library Paths
 CV_DIR = r"C:\Users\YungVee\Documents\smiper crm\CV_Library"
-TECH_CV_PATH = os.path.join(CV_DIR, "01_Technical_Engineering_CVs", "Muhammed_Nafiu_CV.pdf")
+TECH_CV_PATH = os.path.join(CV_DIR, "01_Technical_Engineering_CVs", "Muhammed_Nafiu_Technical_Support_Operations_CV.pdf")
 OPS_CV_PATH = os.path.join(CV_DIR, "02_Operations_VA_Support_CVs", "Muhammed_Nafiu_Resume.pdf")
 DOWNLOADS_DIR = r"C:\Users\YungVee\Downloads"
 
 # Daily Target Settings (23 Total: 9 Track A + 10 Track B + 4 Track C)
 # Anchor: Wellfound = 6 (Track A), Himalayas = 3 (Track A) + 3 (Track B) = 6. Combined = 12.
+# Other Track B: We Work Remotely (4) + Jobspresso (3) = 7.
 DEFAULT_DAILY_QUOTA = {
     "track_a_total": 9,
     "track_b_total": 10,
@@ -75,7 +78,7 @@ PITCH_TEMPLATES = {
         "Abuja, Nigeria (Remote)"
     ),
     "track_c_writing": (
-        "Subject: Article Pitch: 3 Content Angles for {company} - Muhammed Nafiu\n\n"
+        "Subject: Article Pitch: 3 Content Angles for {company} : Muhammed Nafiu\n\n"
         "Hi {company} Editorial Team,\n\n"
         "I saw your call for freelance writers and wanted to pitch directly.\n\n"
         "I specialize in writing clear, well-researched, and actionable content covering technology, AI automation workflows, "
@@ -93,34 +96,34 @@ PITCH_TEMPLATES = {
     ),
 }
 
-# Platform Directories and Guides
+# Platform Directories and Guides (Remotive removed; WWR and Jobspresso expanded)
 PLATFORMS = {
     "Wellfound (Track A: 6/day - Tech Support, IT, QA & AI Ops)": {
         "platform_key": "Wellfound",
         "track": "track_a_tech",
         "url": "https://wellfound.com/jobs",
         "filters": [
-            "1. Click Role filter -> Remove 'Software Engineer' / 'Backend Developer'",
-            "2. Select Roles: 'Technical Support', 'IT Support', 'QA Engineer' (Manual), 'Solutions Engineer', 'Operations' (AI/Tech), 'Security'",
-            "3. Location: Remote only -> Worldwide",
-            "4. Skip any listing asking for 3+ years of manual Python/Node.js coding",
+            "1. Click Role filter -> Keep 'Technical Support', 'QA Engineer', 'IT Support', 'Solutions Engineer'",
+            "2. Location: Remote only -> Worldwide",
+            "3. Excluded keywords: 'Senior Software', 'Staff Engineer', 'Principal', 'LeetCode'",
+            "4. Skip any listing asking for 3+ years of manual production Python/Node.js coding",
         ],
-        "cv_recommended": "Muhammed_Nafiu_CV.pdf (or Operations Resume)",
+        "cv_recommended": "Muhammed_Nafiu_Technical_Support_Operations_CV.pdf",
         "cv_path": TECH_CV_PATH,
         "pitch_key": "track_a_tech",
         "target_daily": 6,
     },
-    "Himalayas (Track A: 3/day - Tech Support, IT Helpdesk, QA & Cyber)": {
+    "Himalayas (Track A: 3/day - Tech Support, IT Helpdesk, QA)": {
         "platform_key": "Himalayas",
         "track": "track_a_tech",
         "url": "https://himalayas.app/jobs/technical-support",
         "filters": [
-            "1. Categories: 'Technical Support', 'IT Support', 'Help Desk', 'QA', or 'Cybersecurity'",
+            "1. Categories: 'Technical Support', 'IT Support', 'Help Desk', 'QA'",
             "2. Experience Level: Check 'Entry-level' and 'Mid-level' (Uncheck Senior/Staff)",
             "3. Location: Worldwide / Work from anywhere",
-            "4. Sort by: Recently Added",
+            "4. Apply directly on the company's free ATS form (Ashby, Greenhouse, Lever)",
         ],
-        "cv_recommended": "Muhammed_Nafiu_CV.pdf (Technical Support & Systems CV)",
+        "cv_recommended": "Muhammed_Nafiu_Technical_Support_Operations_CV.pdf",
         "cv_path": TECH_CV_PATH,
         "pitch_key": "track_a_tech",
         "target_daily": 3,
@@ -132,53 +135,40 @@ PLATFORMS = {
         "filters": [
             "1. Categories: 'Customer Support', 'Customer Service', 'Virtual Assistant', 'Operations'",
             "2. Location: Worldwide / Work from anywhere",
-            "3. Strictly non-coding roles (chat, email, scheduling, data entry)",
+            "3. Non-coding roles (chat, email, scheduling, data entry, client onboarding)",
         ],
         "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
         "cv_path": OPS_CV_PATH,
         "pitch_key": "track_b_basic",
         "target_daily": 3,
     },
-    "Remotive (Track B: 3/day - Worldwide Support & Ops)": {
-        "platform_key": "Remotive",
-        "track": "track_b_basic",
-        "url": "https://remotive.com/remote-customer-service-jobs",
-        "filters": [
-            "1. Location filter: Select 'Worldwide' badge only",
-            "2. Categories: Customer Service, Operations, Admin",
-            "3. Apply via direct company ATS link",
-        ],
-        "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
-        "cv_path": OPS_CV_PATH,
-        "pitch_key": "track_b_basic",
-        "target_daily": 3,
-    },
-    "We Work Remotely (Track B: 2/day - Anywhere in World)": {
+    "We Work Remotely (Track B: 4/day - Customer Support & Ops)": {
         "platform_key": "We Work Remotely",
         "track": "track_b_basic",
         "url": "https://weworkremotely.com/categories/remote-customer-support-jobs",
         "filters": [
-            "1. Look strictly for the blue 'Anywhere in the World' badge",
-            "2. Categories: Customer Support, Operations",
-            "3. Skip US/EU region-locked posts",
+            "1. Look strictly for the blue 'Anywhere in the World' badge on each listing",
+            "2. Categories: Customer Support, Operations, Back-Office",
+            "3. 100% free direct ATS link, zero paywalls or blurred company names",
         ],
         "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
         "cv_path": OPS_CV_PATH,
         "pitch_key": "track_b_basic",
-        "target_daily": 2,
+        "target_daily": 4,
     },
-    "Jobspresso (Track B: 2/day - Worldwide Support & Ops)": {
+    "Jobspresso (Track B: 3/day - Worldwide Support & Ops)": {
         "platform_key": "Jobspresso",
         "track": "track_b_basic",
-        "url": "https://jobspresso.co/",
+        "url": "https://jobspresso.co/remote-support-jobs/",
         "filters": [
-            "1. Type 'Worldwide' in Location search box",
-            "2. Browse 'Support' and 'Operations' categories",
+            "1. Browse 'Support' and 'Operations' categories",
+            "2. Filter Location: Select 'Worldwide' listings",
+            "3. Click 'Apply' to go directly to company's hiring page",
         ],
         "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
         "cv_path": OPS_CV_PATH,
         "pitch_key": "track_b_basic",
-        "target_daily": 2,
+        "target_daily": 3,
     },
     "BloggingPro (Track C: 2/day - Paid Writing Gigs)": {
         "platform_key": "BloggingPro",
