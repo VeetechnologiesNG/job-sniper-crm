@@ -125,7 +125,7 @@ def delete_application(app_id: int) -> bool:
         conn.close()
 
 def get_or_create_daily_quota(target_date: str = None) -> dict:
-    """Gets or initializes the 3-track quota record for a given date."""
+    """Gets or initializes the 3-track quota record for a given date, synced to DEFAULT_DAILY_QUOTA."""
     if not target_date:
         target_date = date.today().strftime("%Y-%m-%d")
         
@@ -151,6 +151,28 @@ def get_or_create_daily_quota(target_date: str = None) -> dict:
                 DEFAULT_DAILY_QUOTA["himalayas_track_a"],
                 DEFAULT_DAILY_QUOTA["himalayas_track_b"],
                 DEFAULT_DAILY_QUOTA["other_track_b"],
+            ))
+            conn.commit()
+            cursor.execute("SELECT * FROM daily_quotas WHERE date = ?", (target_date,))
+            row = cursor.fetchone()
+        elif (row["target_track_a"] != DEFAULT_DAILY_QUOTA["track_a_total"] or
+              row["target_track_b"] != DEFAULT_DAILY_QUOTA["track_b_total"] or
+              row["target_track_c"] != DEFAULT_DAILY_QUOTA["track_c_total"]):
+            cursor.execute("""
+                UPDATE daily_quotas
+                SET target_track_a = ?, target_track_b = ?, target_track_c = ?,
+                    target_wellfound_a = ?, target_himalayas_a = ?,
+                    target_himalayas_b = ?, target_other_b = ?
+                WHERE date = ?
+            """, (
+                DEFAULT_DAILY_QUOTA["track_a_total"],
+                DEFAULT_DAILY_QUOTA["track_b_total"],
+                DEFAULT_DAILY_QUOTA["track_c_total"],
+                DEFAULT_DAILY_QUOTA["wellfound_track_a"],
+                DEFAULT_DAILY_QUOTA["himalayas_track_a"],
+                DEFAULT_DAILY_QUOTA["himalayas_track_b"],
+                DEFAULT_DAILY_QUOTA["other_track_b"],
+                target_date,
             ))
             conn.commit()
             cursor.execute("SELECT * FROM daily_quotas WHERE date = ?", (target_date,))
@@ -189,6 +211,8 @@ def get_daily_progress(target_date: str = None) -> dict:
         """, (target_date,))
         applied_him_a = cursor.fetchone()[0]
         
+        applied_other_a = max(0, applied_a - applied_wf_a - applied_him_a)
+        
         # Track B counts
         cursor.execute("""
             SELECT COUNT(*) FROM applications 
@@ -211,6 +235,14 @@ def get_daily_progress(target_date: str = None) -> dict:
         """, (target_date,))
         applied_c = cursor.fetchone()[0]
         
+        cursor.execute("""
+            SELECT COUNT(*) FROM applications 
+            WHERE date_applied = ? AND track = 'track_c_gigs' AND platform = 'ProBlogger'
+        """, (target_date,))
+        applied_pb_c = cursor.fetchone()[0]
+        
+        applied_other_c = max(0, applied_c - applied_pb_c)
+        
         total_applied = applied_a + applied_b + applied_c
         total_target = quota["target_track_a"] + quota["target_track_b"] + quota["target_track_c"]
         
@@ -222,6 +254,7 @@ def get_daily_progress(target_date: str = None) -> dict:
             "target_wellfound_a": quota["target_wellfound_a"],
             "applied_himalayas_a": applied_him_a,
             "target_himalayas_a": quota["target_himalayas_a"],
+            "applied_other_a": applied_other_a,
             
             "applied_track_b": applied_b,
             "target_track_b": quota["target_track_b"],
@@ -232,6 +265,8 @@ def get_daily_progress(target_date: str = None) -> dict:
             
             "applied_track_c": applied_c,
             "target_track_c": quota["target_track_c"],
+            "applied_problogger_c": applied_pb_c,
+            "applied_other_c": applied_other_c,
             
             "total_applied": total_applied,
             "total_target": total_target,

@@ -4,7 +4,7 @@ Provides SQLite connection with WAL mode and automatic 3-track migration.
 """
 import os
 import sqlite3
-from config import DB_PATH, DATA_DIR, SCHEMA_PATH
+from config import DB_PATH, DATA_DIR, SCHEMA_PATH, DEFAULT_DAILY_QUOTA
 
 def get_connection():
     """Returns a thread-safe connection to the SQLite database with WAL mode enabled."""
@@ -16,7 +16,7 @@ def get_connection():
     return conn
 
 def init_db():
-    """Initializes the database schema and migrates legacy 2-track tables to 3-track tables."""
+    """Initializes the database schema and synchronizes daily quotas with active config targets."""
     os.makedirs(DATA_DIR, exist_ok=True)
     conn = get_connection()
     try:
@@ -74,6 +74,27 @@ def init_db():
         with open(SCHEMA_PATH, "r", encoding="utf-8") as f:
             schema_sql = f.read()
         conn.executescript(schema_sql)
+
+        # Synchronize all daily_quotas rows to active DEFAULT_DAILY_QUOTA targets
+        cursor.execute("""
+            UPDATE daily_quotas
+            SET target_track_a = ?,
+                target_track_b = ?,
+                target_track_c = ?,
+                target_wellfound_a = ?,
+                target_himalayas_a = ?,
+                target_himalayas_b = ?,
+                target_other_b = ?
+        """, (
+            DEFAULT_DAILY_QUOTA["track_a_total"],
+            DEFAULT_DAILY_QUOTA["track_b_total"],
+            DEFAULT_DAILY_QUOTA["track_c_total"],
+            DEFAULT_DAILY_QUOTA["wellfound_track_a"],
+            DEFAULT_DAILY_QUOTA["himalayas_track_a"],
+            DEFAULT_DAILY_QUOTA["himalayas_track_b"],
+            DEFAULT_DAILY_QUOTA["other_track_b"],
+        ))
+
         conn.commit()
     finally:
         conn.close()

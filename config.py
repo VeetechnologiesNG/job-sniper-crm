@@ -2,10 +2,11 @@
 Job Sniper CRM Configuration
 Defines default daily quotas across Track A (Tech Support/IT/QA/AI Ops), Track B (Basic Operations & Customer Support),
 and Track C (Fast Writing & Crowdsource Gigs).
-Permanently eliminates all paywall/subscription aggregators (Remotive, We Work Remotely, Jobspresso).
+Permanently eliminates all paywall/subscription aggregators (Remotive, We Work Remotely).
 Consolidates 100% of daily volume onto verified, zero-paywall, direct-apply platforms:
-- Wellfound: 10/day (Track A: Tech Support, QA, IT, Solutions, AI Ops)
-- Himalayas: 9/day (5 Track A + 4 Track B: Direct ATS links with zero paywalls)
+- Wellfound: 6/day (Track A: Tech Support, QA, IT, Solutions, AI Ops)
+- Himalayas: 6/day (3 Track A + 3 Track B: Direct ATS links with zero paywalls)
+- Direct ATS & Free Boards: 7/day (Track B: Customer Support, Operations)
 - Track C Gigs: 4/day (2 ProBlogger + 2 MotionArt/ModSquad/Influx direct agency forms)
 Total: 23/day
 """
@@ -22,16 +23,16 @@ TECH_CV_PATH = os.path.join(CV_DIR, "01_Technical_Engineering_CVs", "Muhammed_Na
 OPS_CV_PATH = os.path.join(CV_DIR, "02_Operations_VA_Support_CVs", "Muhammed_Nafiu_Resume.pdf")
 DOWNLOADS_DIR = r"C:\Users\YungVee\Downloads"
 
-# Daily Target Settings (23 Total: 15 Track A + 4 Track B + 4 Track C)
+# Daily Target Settings (23 Total: 9 Track A + 10 Track B + 4 Track C)
 DEFAULT_DAILY_QUOTA = {
-    "track_a_total": 15,
-    "track_b_total": 4,
+    "track_a_total": 9,
+    "track_b_total": 10,
     "track_c_total": 4,
     "total": 23,
-    "wellfound_track_a": 10,
-    "himalayas_track_a": 5,
-    "himalayas_track_b": 4,
-    "other_track_b": 0,
+    "wellfound_track_a": 6,
+    "himalayas_track_a": 3,
+    "himalayas_track_b": 3,
+    "other_track_b": 7,
 }
 
 # Candidate Profile Constants
@@ -100,7 +101,7 @@ PITCH_TEMPLATES = {
 
 # Verified Zero-Paywall Platform Guides
 PLATFORMS = {
-    "Wellfound (Track A: 10/day - Tech Support, QA, IT & AI Ops)": {
+    "Wellfound (Track A: 6/day - Tech Support, QA, IT & AI Ops)": {
         "platform_key": "Wellfound",
         "track": "track_a_tech",
         "url": "https://wellfound.com/jobs",
@@ -113,9 +114,9 @@ PLATFORMS = {
         "cv_recommended": "Muhammed_Nafiu_Technical_Support_Operations_CV.pdf",
         "cv_path": TECH_CV_PATH,
         "pitch_key": "track_a_tech",
-        "target_daily": 10,
+        "target_daily": 6,
     },
-    "Himalayas (Track A: 5/day - Tech Support, IT Helpdesk, QA)": {
+    "Himalayas (Track A: 3/day - Tech Support, IT Helpdesk, QA)": {
         "platform_key": "Himalayas",
         "track": "track_a_tech",
         "url": "https://himalayas.app/jobs/technical-support",
@@ -128,9 +129,9 @@ PLATFORMS = {
         "cv_recommended": "Muhammed_Nafiu_Technical_Support_Operations_CV.pdf",
         "cv_path": TECH_CV_PATH,
         "pitch_key": "track_a_tech",
-        "target_daily": 5,
+        "target_daily": 3,
     },
-    "Himalayas (Track B: 4/day - Customer Support & Operations)": {
+    "Himalayas (Track B: 3/day - Customer Support & Operations)": {
         "platform_key": "Himalayas",
         "track": "track_b_basic",
         "url": "https://himalayas.app/jobs/customer-support",
@@ -143,7 +144,21 @@ PLATFORMS = {
         "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
         "cv_path": OPS_CV_PATH,
         "pitch_key": "track_b_basic",
-        "target_daily": 4,
+        "target_daily": 3,
+    },
+    "Direct ATS & Free Boards (Track B: 7/day - Customer Support & Ops)": {
+        "platform_key": "Direct ATS / Free Boards",
+        "track": "track_b_basic",
+        "url": "https://himalayas.app/jobs",
+        "filters": [
+            "1. Categories: Support, Operations, Back-Office, Virtual Assistant",
+            "2. Direct ATS platforms: Greenhouse, Lever, Ashby, SmartRecruiters",
+            "3. 100% Free: Direct corporate career pages with zero middleman paywalls",
+        ],
+        "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
+        "cv_path": OPS_CV_PATH,
+        "pitch_key": "track_b_basic",
+        "target_daily": 7,
     },
     "ProBlogger (Track C: 2/day - Tech & B2B Writing)": {
         "platform_key": "ProBlogger",
@@ -192,7 +207,7 @@ TRACK_CHOICES = [
 ]
 
 TRACK_LABELS = {
-    "track_a_tech": "Track A: Tech Support, IT, QA & AI Ops (15/day)",
-    "track_b_basic": "Track B: Basic Customer Support & Ops (4/day)",
+    "track_a_tech": "Track A: Tech Support, IT, QA & AI Ops (9/day)",
+    "track_b_basic": "Track B: Basic Customer Support & Ops (10/day)",
     "track_c_gigs": "Track C: Fast Writing & Crowdsource Gigs (4/day)",
 }

@@ -32,26 +32,31 @@ with col_tot:
     st.progress(summary['total_pct'] / 100)
 
 with col_a:
+    track_a_delta = f"Wellfound: {summary['applied_wellfound_a']}/{summary['target_wellfound_a']} | Himalayas: {summary['applied_himalayas_a']}/{summary['target_himalayas_a']}"
+    if summary.get("applied_other_a", 0) > 0:
+        track_a_delta += f" | Other: {summary['applied_other_a']}"
     st.metric(
         label="Track A: Tech Support / IT / QA",
         value=f"{summary['applied_track_a']} / {summary['target_track_a']}",
-        delta=f"Wellfound: {summary['applied_wellfound_a']}/10 | Himalayas: {summary['applied_himalayas_a']}/5"
+        delta=track_a_delta
     )
     st.progress(summary['track_a_pct'] / 100)
 
 with col_b:
+    track_b_delta = f"Himalayas: {summary['applied_himalayas_b']}/{summary['target_himalayas_b']} | Direct ATS / Other: {summary['applied_other_b']}/{summary['target_other_b']}"
     st.metric(
         label="Track B: Basic Support & Ops",
         value=f"{summary['applied_track_b']} / {summary['target_track_b']}",
-        delta=f"Himalayas: {summary['applied_himalayas_b']}/4"
+        delta=track_b_delta
     )
     st.progress(summary['track_b_pct'] / 100)
 
 with col_c:
+    track_c_delta = f"ProBlogger: {summary.get('applied_problogger_c', 0)}/2 | Gigs: {summary.get('applied_other_c', 0)}/2"
     st.metric(
         label="Track C: Writing & Fast Gigs",
         value=f"{summary['applied_track_c']} / {summary['target_track_c']}",
-        delta="BloggingPro (2) | ProBlogger (1) | ModSquad (1)"
+        delta=track_c_delta
     )
     st.progress(summary['track_c_pct'] / 100)
 
@@ -73,7 +78,8 @@ with st.form("quick_log_form", clear_on_submit=True):
         platform = st.selectbox(
             "Platform*",
             options=[
-                "Wellfound", "Himalayas", "ProBlogger", "MotionArt / ModSquad / Influx", "Other"
+                "Wellfound", "Himalayas", "Direct ATS / Company Career Page",
+                "ProBlogger", "MotionArt / ModSquad / Influx", "Other"
             ]
         )
     with row1_c3:
@@ -118,49 +124,42 @@ with st.form("quick_log_form", clear_on_submit=True):
                 "status": status,
                 "notes": notes,
             })
-            st.success(f"Recorded! Application #{new_id} ({company_name} : {job_title}) saved.")
+            st.success(f"Application #{new_id} for {company_name} logged successfully under {TRACK_LABELS.get(track, track)}!")
             st.rerun()
 
 st.divider()
 
-# Today's Applications Table
-st.subheader(f"📅 Applications Submitted Today ({today_str})")
-today_apps = get_all_applications(date_from=today_str, date_to=today_str)
+# Applications Logged Today Table
+st.subheader("📋 Applications Logged Today")
+today_apps = get_all_applications(date_applied=today_str)
 
 if not today_apps:
-    st.info("No applications logged for today yet. Use the form above to log your first job!")
+    st.info("No applications logged yet today. Use the form above to record your submissions.")
 else:
     for app in today_apps:
-        with st.container():
-            c_info, c_status, c_act = st.columns([3, 1, 1])
-            with c_info:
-                if app["track"] == "track_a_tech":
-                    track_badge = "🛠️ Track A: Tech Support / IT / QA"
-                elif app["track"] == "track_c_gigs":
-                    track_badge = "✍️ Track C: Writing & Gigs"
-                else:
-                    track_badge = "⚡ Track B: Basic Support & Ops"
-                st.markdown(f"**{app['company_name']}** : {app['job_title']} `[{track_badge}]`")
-                st.caption(f"Platform: **{app['platform']}** | Salary: {app['salary_offered'] or 'Unlisted'} | CV: `{app['cv_used']}`")
-                if app["job_url"]:
-                    st.caption(f"[View Posting]({app['job_url']})")
-            
-            with c_status:
-                current_st = app["status"]
-                new_st = st.selectbox(
-                    "Status",
+        with st.expander(f"#{app['id']} : {app['company_name']} - {app['job_title']} [{app['platform']}]", expanded=False):
+            c1, c2, c3 = st.columns([1, 1, 1])
+            with c1:
+                st.write(f"**Track:** {TRACK_LABELS.get(app['track'], app['track'])}")
+                st.write(f"**Time:** {app['time_applied']}")
+                st.write(f"**Salary:** {app['salary_offered'] or 'Not specified'}")
+            with c2:
+                st.write(f"**CV Used:** {app['cv_used']}")
+                st.write(f"**URL:** {app['job_url'] or 'None'}")
+                st.write(f"**Notes:** {app['notes'] or 'None'}")
+            with c3:
+                new_status = st.selectbox(
+                    "Update Status",
                     options=STATUS_CHOICES,
-                    index=STATUS_CHOICES.index(current_st) if current_st in STATUS_CHOICES else 0,
-                    key=f"status_today_{app['id']}"
+                    index=STATUS_CHOICES.index(app["status"]) if app["status"] in STATUS_CHOICES else 0,
+                    key=f"status_select_{app['id']}"
                 )
-                if new_st != current_st:
-                    update_application_status(app["id"], new_st)
-                    st.success("Updated!")
+                if new_status != app["status"]:
+                    update_application_status(app["id"], new_status)
+                    st.toast(f"Status updated to {new_status}")
                     st.rerun()
-                    
-            with c_act:
-                st.write("")
-                if st.button("🗑️ Delete", key=f"del_today_{app['id']}"):
+                
+                if st.button("Delete Application", key=f"del_btn_{app['id']}", type="secondary"):
                     delete_application(app["id"])
+                    st.toast(f"Application #{app['id']} deleted")
                     st.rerun()
-            st.divider()

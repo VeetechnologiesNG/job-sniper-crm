@@ -114,31 +114,36 @@ with col1:
     st.progress(today_data['total_pct'] / 100)
 
 with col2:
+    sub_a = f"Wellfound: {today_data['applied_wellfound_a']}/{today_data['target_wellfound_a']} • Himalayas: {today_data['applied_himalayas_a']}/{today_data['target_himalayas_a']}"
+    if today_data.get('applied_other_a', 0) > 0:
+        sub_a += f" • Other: {today_data['applied_other_a']}"
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">Track A: Tech Support, IT & QA ($1.5k-$4k)</div>
         <div class="metric-value">{today_data['applied_track_a']} / {today_data['target_track_a']}</div>
-        <div class="metric-sub">Wellfound: {today_data['applied_wellfound_a']}/10 • Himalayas: {today_data['applied_himalayas_a']}/5</div>
+        <div class="metric-sub">{sub_a}</div>
     </div>
     """, unsafe_allow_html=True)
     st.progress(today_data['track_a_pct'] / 100)
 
 with col3:
+    sub_b = f"Himalayas: {today_data['applied_himalayas_b']}/{today_data['target_himalayas_b']} • Direct ATS / Other: {today_data['applied_other_b']}/{today_data['target_other_b']}"
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">Track B: Basic Support & Ops ($800-$2k)</div>
         <div class="metric-value">{today_data['applied_track_b']} / {today_data['target_track_b']}</div>
-        <div class="metric-sub">Himalayas (Direct ATS): {today_data['applied_himalayas_b']}/4</div>
+        <div class="metric-sub">{sub_b}</div>
     </div>
     """, unsafe_allow_html=True)
     st.progress(today_data['track_b_pct'] / 100)
 
 with col4:
+    sub_c = f"ProBlogger: {today_data.get('applied_problogger_c', 0)}/2 • Gigs: {today_data.get('applied_other_c', 0)}/2"
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">Track C: Writing & Fast Gigs ($50-$200/item)</div>
         <div class="metric-value">{today_data['applied_track_c']} / {today_data['target_track_c']}</div>
-        <div class="metric-sub">BloggingPro (2) • ProBlogger (1) • ModSquad (1)</div>
+        <div class="metric-sub">{sub_c}</div>
     </div>
     """, unsafe_allow_html=True)
     st.progress(today_data['track_c_pct'] / 100)
@@ -148,38 +153,30 @@ st.write("")
 # Upcoming Interviews Alert
 interviews = get_upcoming_interviews()
 if interviews:
-    st.subheader("📅 Scheduled Interviews & Screenings")
+    st.subheader("🗓️ Scheduled Interviews")
     for iv in interviews:
-        with st.container():
-            st.info(
-                f"**{iv['company_name']}** ({iv['job_title']})\n\n"
-                f"• Date: {iv['interview_date']} at {iv['interview_time']}\n"
-                f"• Stage: {iv['stage']} | Interviewer: {iv['interviewer_name'] or 'TBD'}\n"
-                f"• Link: {iv['meeting_link'] or 'Pending email invite'}"
-            )
-else:
-    st.caption("No interviews scheduled yet. Keep applying to book calls this week.")
+        st.info(
+            f"**{iv['company_name']}** : {iv['job_title']} `[{iv['stage']}]`\n\n"
+            f"• Date & Time: **{iv['interview_date']}** at **{iv['interview_time']}**\n"
+            f"• Interviewer: {iv['interviewer_name'] or 'Not specified'} | Link: {iv['meeting_link'] or 'Pending email invite'}\n"
+            f"• Notes: {iv['notes'] or 'None'}"
+        )
+    st.divider()
 
-st.divider()
+# Quick Navigation & Action Guide
+c_nav1, c_nav2, c_nav3 = st.columns(3)
 
-# Navigation Cards
-st.subheader("⚡ Quick Navigation")
-nav1, nav2, nav3 = st.columns(3)
+with c_nav1:
+    st.markdown("### 📋 1. Daily Mission")
+    st.write("Track live quota progress and log today's applications across all 3 tracks.")
+    st.page_link("pages/01_Daily_Mission.py", label="Open Daily Mission Control →", icon="📋")
 
-with nav1:
-    st.markdown("### 📋 Daily Mission")
-    st.write("Log new applications, track live quotas across Track A, B, and C, and review today's submissions.")
-    if st.button("Go to Daily Mission →", key="btn_mission"):
-        st.switch_page("pages/01_Daily_Mission.py")
+with c_nav2:
+    st.markdown("### 🧭 2. Platform Guides")
+    st.write("Access direct search links, required keyword filters, and 1-click tailored pitch notes.")
+    st.page_link("pages/02_Platform_Guide.py", label="Open Platform Guide →", icon="🧭")
 
-with nav2:
-    st.markdown("### 🧭 Platform Guides")
-    st.write("Pre-filtered links, exact Track A/B/C search filters, CV recommendations, and 1-click pitch copy.")
-    if st.button("Go to Platform Guides →", key="btn_guide"):
-        st.switch_page("pages/02_Platform_Guide.py")
-
-with nav3:
-    st.markdown("### 📊 Pipeline & Tracker")
-    st.write("Track application lifecycle, log booked interviews, and export records.")
-    if st.button("Go to Pipeline Board →", key="btn_pipeline"):
-        st.switch_page("pages/03_Pipeline_Board.py")
+with c_nav3:
+    st.markdown("### 📊 3. Pipeline Board")
+    st.write("Manage active applications, update candidate status, and schedule interview invitations.")
+    st.page_link("pages/03_Pipeline_Board.py", label="Open Pipeline Board →", icon="📊")
