@@ -73,7 +73,7 @@ with st.form("quick_log_form", clear_on_submit=True):
         platform = st.selectbox(
             "Platform*",
             options=[
-                "Wellfound", "Himalayas", "BloggingPro", "ProBlogger", "MotionArt / ModSquad", "Other"
+                "Wellfound", "Himalayas", "ProBlogger", "MotionArt / ModSquad / Influx", "Other"
             ]
         )
     with row1_c3:

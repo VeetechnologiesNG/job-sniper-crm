@@ -2,11 +2,11 @@
 Job Sniper CRM Configuration
 Defines default daily quotas across Track A (Tech Support/IT/QA/AI Ops), Track B (Basic Operations & Customer Support),
 and Track C (Fast Writing & Crowdsource Gigs).
-Permanently eliminates predatory paywall platforms (Remotive, We Work Remotely).
-Consolidates all applications onto 100% verified free direct boards:
-- Wellfound: 10/day (Track A)
-- Himalayas: 9/day (5 Track A + 4 Track B)
-- Track C Gigs: 4/day (BloggingPro 2, ProBlogger 1, MotionArt/ModSquad 1)
+Permanently eliminates all paywall/subscription aggregators (Remotive, We Work Remotely, Jobspresso).
+Consolidates 100% of daily volume onto verified, zero-paywall, direct-apply platforms:
+- Wellfound: 10/day (Track A: Tech Support, QA, IT, Solutions, AI Ops)
+- Himalayas: 9/day (5 Track A + 4 Track B: Direct ATS links with zero paywalls)
+- Track C Gigs: 4/day (2 ProBlogger + 2 MotionArt/ModSquad/Influx direct agency forms)
 Total: 23/day
 """
 import os
@@ -98,17 +98,17 @@ PITCH_TEMPLATES = {
     ),
 }
 
-# Platform Directories and Guides (Clean, 100% Free Direct Boards)
+# Verified Zero-Paywall Platform Guides
 PLATFORMS = {
-    "Wellfound (Track A: 10/day - Tech Support, IT, QA & AI Ops)": {
+    "Wellfound (Track A: 10/day - Tech Support, QA, IT & AI Ops)": {
         "platform_key": "Wellfound",
         "track": "track_a_tech",
         "url": "https://wellfound.com/jobs",
         "filters": [
-            "1. Filter Roles: 'Technical Support', 'QA Engineer', 'IT Support', 'Solutions Engineer', 'Operations'",
+            "1. Roles: 'Technical Support', 'QA Engineer', 'IT Support', 'Solutions Engineer', 'Operations'",
             "2. Location: Remote only -> Worldwide",
             "3. Excluded keywords: 'Senior Software', 'Staff Engineer', 'Principal', 'LeetCode'",
-            "4. 100% Free: Click Apply, paste tailored pitch, and submit directly to founders/HR",
+            "4. 100% Free: 1-click apply with your custom pitch note directly to founders/HR",
         ],
         "cv_recommended": "Muhammed_Nafiu_Technical_Support_Operations_CV.pdf",
         "cv_path": TECH_CV_PATH,
@@ -123,7 +123,7 @@ PLATFORMS = {
             "1. Categories: 'Technical Support', 'IT Support', 'Help Desk', 'QA'",
             "2. Experience Level: Check 'Entry-level' and 'Mid-level' (Uncheck Senior/Staff)",
             "3. Location: Worldwide / Work from anywhere",
-            "4. 100% Free: Direct ATS links (Ashby, Greenhouse, Lever, SmartRecruiters)",
+            "4. 100% Free: Direct ATS links to Ashby, Greenhouse, Lever, SmartRecruiters",
         ],
         "cv_recommended": "Muhammed_Nafiu_Technical_Support_Operations_CV.pdf",
         "cv_path": TECH_CV_PATH,
@@ -145,35 +145,21 @@ PLATFORMS = {
         "pitch_key": "track_b_basic",
         "target_daily": 4,
     },
-    "BloggingPro (Track C: 2/day - Paid Writing Gigs)": {
-        "platform_key": "BloggingPro",
-        "track": "track_c_gigs",
-        "url": "https://www.bloggingpro.com/job-category/freelance-writing-jobs/",
-        "filters": [
-            "1. Category: Freelance Writing Jobs / Remote Writing",
-            "2. Send 3-headline article pitch with 24-48h turnaround offer",
-            "3. 100% Free direct pitch emails to editorial leads",
-        ],
-        "cv_recommended": "3-Headline Pitch Email + Portfolio Link",
-        "cv_path": OPS_CV_PATH,
-        "pitch_key": "track_c_writing",
-        "target_daily": 2,
-    },
-    "ProBlogger (Track C: 1/day - Tech & B2B Writing)": {
+    "ProBlogger (Track C: 2/day - Tech & B2B Writing)": {
         "platform_key": "ProBlogger",
         "track": "track_c_gigs",
         "url": "https://problogger.com/jobs/pages/advanced-search",
         "filters": [
             "1. Keywords: Tech, AI, SaaS, Software, Operations",
             "2. Check 'Work can be done remotely'",
-            "3. 100% Free direct email / application link",
+            "3. 100% Free direct email / application link on every post",
         ],
         "cv_recommended": "3-Headline Pitch Email + Portfolio Link",
         "cv_path": OPS_CV_PATH,
         "pitch_key": "track_c_writing",
-        "target_daily": 1,
+        "target_daily": 2,
     },
-    "MotionArt / ModSquad (Track C: 1/day - YouTube Scripts & Ticket Moderation)": {
+    "MotionArt / ModSquad / Influx (Track C: 2/day - YouTube Scripts & Ticket Moderation)": {
         "platform_key": "MotionArt / ModSquad",
         "track": "track_c_gigs",
         "url": "https://join.modsquad.com/",
@@ -181,11 +167,12 @@ PLATFORMS = {
             "1. MotionArt: YouTube Scriptwriting ($40/script, fast turnarounds)",
             "2. ModSquad: Remote Independent Contractor (Mod)",
             "3. Influx (influx.com/careers): Worldwide Support Agent",
+            "4. 100% Free direct agency application forms",
         ],
         "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
         "cv_path": OPS_CV_PATH,
         "pitch_key": "track_b_basic",
-        "target_daily": 1,
+        "target_daily": 2,
     },
 }
 
