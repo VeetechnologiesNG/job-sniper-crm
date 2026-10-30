@@ -118,7 +118,7 @@ with col2:
     <div class="metric-card">
         <div class="metric-title">Track A: Tech Support, IT & QA ($1.5k-$4k)</div>
         <div class="metric-value">{today_data['applied_track_a']} / {today_data['target_track_a']}</div>
-        <div class="metric-sub">Wellfound: {today_data['applied_wellfound_a']}/6 • Himalayas: {today_data['applied_himalayas_a']}/3</div>
+        <div class="metric-sub">Wellfound: {today_data['applied_wellfound_a']}/10 • Himalayas: {today_data['applied_himalayas_a']}/5</div>
     </div>
     """, unsafe_allow_html=True)
     st.progress(today_data['track_a_pct'] / 100)
@@ -128,7 +128,7 @@ with col3:
     <div class="metric-card">
         <div class="metric-title">Track B: Basic Support & Ops ($800-$2k)</div>
         <div class="metric-value">{today_data['applied_track_b']} / {today_data['target_track_b']}</div>
-        <div class="metric-sub">Himalayas: {today_data['applied_himalayas_b']}/3 • Remotive/WWR/Jobspresso: {today_data['applied_other_b']}/7</div>
+        <div class="metric-sub">Himalayas (Direct ATS): {today_data['applied_himalayas_b']}/4</div>
     </div>
     """, unsafe_allow_html=True)
     st.progress(today_data['track_b_pct'] / 100)

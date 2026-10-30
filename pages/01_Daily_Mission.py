@@ -35,7 +35,7 @@ with col_a:
     st.metric(
         label="Track A: Tech Support / IT / QA",
         value=f"{summary['applied_track_a']} / {summary['target_track_a']}",
-        delta=f"Wellfound: {summary['applied_wellfound_a']}/6 | Himalayas: {summary['applied_himalayas_a']}/3"
+        delta=f"Wellfound: {summary['applied_wellfound_a']}/10 | Himalayas: {summary['applied_himalayas_a']}/5"
     )
     st.progress(summary['track_a_pct'] / 100)
 
@@ -43,7 +43,7 @@ with col_b:
     st.metric(
         label="Track B: Basic Support & Ops",
         value=f"{summary['applied_track_b']} / {summary['target_track_b']}",
-        delta=f"Himalayas: {summary['applied_himalayas_b']}/3 | Other: {summary['applied_other_b']}/7"
+        delta=f"Himalayas: {summary['applied_himalayas_b']}/4"
     )
     st.progress(summary['track_b_pct'] / 100)
 
@@ -73,8 +73,7 @@ with st.form("quick_log_form", clear_on_submit=True):
         platform = st.selectbox(
             "Platform*",
             options=[
-                "Wellfound", "Himalayas", "We Work Remotely",
-                "Jobspresso", "BloggingPro", "ProBlogger", "ModSquad / Influx", "Other"
+                "Wellfound", "Himalayas", "BloggingPro", "ProBlogger", "MotionArt / ModSquad", "Other"
             ]
         )
     with row1_c3:

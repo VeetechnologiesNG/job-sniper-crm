@@ -2,8 +2,12 @@
 Job Sniper CRM Configuration
 Defines default daily quotas across Track A (Tech Support/IT/QA/AI Ops), Track B (Basic Operations & Customer Support),
 and Track C (Fast Writing & Crowdsource Gigs).
-Anchor: Wellfound = 6 (Track A), Himalayas = 3 (Track A) + 3 (Track B) = 6.
-Remotive is permanently removed and replaced with We Work Remotely (4/day) and Jobspresso (3/day).
+Permanently eliminates predatory paywall platforms (Remotive, We Work Remotely).
+Consolidates all applications onto 100% verified free direct boards:
+- Wellfound: 10/day (Track A)
+- Himalayas: 9/day (5 Track A + 4 Track B)
+- Track C Gigs: 4/day (BloggingPro 2, ProBlogger 1, MotionArt/ModSquad 1)
+Total: 23/day
 """
 import os
 
@@ -18,18 +22,16 @@ TECH_CV_PATH = os.path.join(CV_DIR, "01_Technical_Engineering_CVs", "Muhammed_Na
 OPS_CV_PATH = os.path.join(CV_DIR, "02_Operations_VA_Support_CVs", "Muhammed_Nafiu_Resume.pdf")
 DOWNLOADS_DIR = r"C:\Users\YungVee\Downloads"
 
-# Daily Target Settings (23 Total: 9 Track A + 10 Track B + 4 Track C)
-# Anchor: Wellfound = 6 (Track A), Himalayas = 3 (Track A) + 3 (Track B) = 6. Combined = 12.
-# Other Track B: We Work Remotely (4) + Jobspresso (3) = 7.
+# Daily Target Settings (23 Total: 15 Track A + 4 Track B + 4 Track C)
 DEFAULT_DAILY_QUOTA = {
-    "track_a_total": 9,
-    "track_b_total": 10,
+    "track_a_total": 15,
+    "track_b_total": 4,
     "track_c_total": 4,
     "total": 23,
-    "wellfound_track_a": 6,
-    "himalayas_track_a": 3,
-    "himalayas_track_b": 3,
-    "other_track_b": 7,
+    "wellfound_track_a": 10,
+    "himalayas_track_a": 5,
+    "himalayas_track_b": 4,
+    "other_track_b": 0,
 }
 
 # Candidate Profile Constants
@@ -96,24 +98,24 @@ PITCH_TEMPLATES = {
     ),
 }
 
-# Platform Directories and Guides (Remotive removed; WWR and Jobspresso expanded)
+# Platform Directories and Guides (Clean, 100% Free Direct Boards)
 PLATFORMS = {
-    "Wellfound (Track A: 6/day - Tech Support, IT, QA & AI Ops)": {
+    "Wellfound (Track A: 10/day - Tech Support, IT, QA & AI Ops)": {
         "platform_key": "Wellfound",
         "track": "track_a_tech",
         "url": "https://wellfound.com/jobs",
         "filters": [
-            "1. Click Role filter -> Keep 'Technical Support', 'QA Engineer', 'IT Support', 'Solutions Engineer'",
+            "1. Filter Roles: 'Technical Support', 'QA Engineer', 'IT Support', 'Solutions Engineer', 'Operations'",
             "2. Location: Remote only -> Worldwide",
             "3. Excluded keywords: 'Senior Software', 'Staff Engineer', 'Principal', 'LeetCode'",
-            "4. Skip any listing asking for 3+ years of manual production Python/Node.js coding",
+            "4. 100% Free: Click Apply, paste tailored pitch, and submit directly to founders/HR",
         ],
         "cv_recommended": "Muhammed_Nafiu_Technical_Support_Operations_CV.pdf",
         "cv_path": TECH_CV_PATH,
         "pitch_key": "track_a_tech",
-        "target_daily": 6,
+        "target_daily": 10,
     },
-    "Himalayas (Track A: 3/day - Tech Support, IT Helpdesk, QA)": {
+    "Himalayas (Track A: 5/day - Tech Support, IT Helpdesk, QA)": {
         "platform_key": "Himalayas",
         "track": "track_a_tech",
         "url": "https://himalayas.app/jobs/technical-support",
@@ -121,54 +123,27 @@ PLATFORMS = {
             "1. Categories: 'Technical Support', 'IT Support', 'Help Desk', 'QA'",
             "2. Experience Level: Check 'Entry-level' and 'Mid-level' (Uncheck Senior/Staff)",
             "3. Location: Worldwide / Work from anywhere",
-            "4. Apply directly on the company's free ATS form (Ashby, Greenhouse, Lever)",
+            "4. 100% Free: Direct ATS links (Ashby, Greenhouse, Lever, SmartRecruiters)",
         ],
         "cv_recommended": "Muhammed_Nafiu_Technical_Support_Operations_CV.pdf",
         "cv_path": TECH_CV_PATH,
         "pitch_key": "track_a_tech",
-        "target_daily": 3,
+        "target_daily": 5,
     },
-    "Himalayas (Track B: 3/day - Basic Support, Admin & VA)": {
+    "Himalayas (Track B: 4/day - Customer Support & Operations)": {
         "platform_key": "Himalayas",
         "track": "track_b_basic",
         "url": "https://himalayas.app/jobs/customer-support",
         "filters": [
             "1. Categories: 'Customer Support', 'Customer Service', 'Virtual Assistant', 'Operations'",
             "2. Location: Worldwide / Work from anywhere",
-            "3. Non-coding roles (chat, email, scheduling, data entry, client onboarding)",
-        ],
-        "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
-        "cv_path": OPS_CV_PATH,
-        "pitch_key": "track_b_basic",
-        "target_daily": 3,
-    },
-    "We Work Remotely (Track B: 4/day - Customer Support & Ops)": {
-        "platform_key": "We Work Remotely",
-        "track": "track_b_basic",
-        "url": "https://weworkremotely.com/categories/remote-customer-support-jobs",
-        "filters": [
-            "1. Look strictly for the blue 'Anywhere in the World' badge on each listing",
-            "2. Categories: Customer Support, Operations, Back-Office",
-            "3. 100% free direct ATS link, zero paywalls or blurred company names",
+            "3. Non-coding roles (chat, email ticketing, client onboarding, data verification)",
+            "4. 100% Free: Direct company ATS application forms",
         ],
         "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
         "cv_path": OPS_CV_PATH,
         "pitch_key": "track_b_basic",
         "target_daily": 4,
-    },
-    "Jobspresso (Track B: 3/day - Worldwide Support & Ops)": {
-        "platform_key": "Jobspresso",
-        "track": "track_b_basic",
-        "url": "https://jobspresso.co/remote-support-jobs/",
-        "filters": [
-            "1. Browse 'Support' and 'Operations' categories",
-            "2. Filter Location: Select 'Worldwide' listings",
-            "3. Click 'Apply' to go directly to company's hiring page",
-        ],
-        "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
-        "cv_path": OPS_CV_PATH,
-        "pitch_key": "track_b_basic",
-        "target_daily": 3,
     },
     "BloggingPro (Track C: 2/day - Paid Writing Gigs)": {
         "platform_key": "BloggingPro",
@@ -177,6 +152,7 @@ PLATFORMS = {
         "filters": [
             "1. Category: Freelance Writing Jobs / Remote Writing",
             "2. Send 3-headline article pitch with 24-48h turnaround offer",
+            "3. 100% Free direct pitch emails to editorial leads",
         ],
         "cv_recommended": "3-Headline Pitch Email + Portfolio Link",
         "cv_path": OPS_CV_PATH,
@@ -190,19 +166,21 @@ PLATFORMS = {
         "filters": [
             "1. Keywords: Tech, AI, SaaS, Software, Operations",
             "2. Check 'Work can be done remotely'",
+            "3. 100% Free direct email / application link",
         ],
         "cv_recommended": "3-Headline Pitch Email + Portfolio Link",
         "cv_path": OPS_CV_PATH,
         "pitch_key": "track_c_writing",
         "target_daily": 1,
     },
-    "ModSquad / Influx (Track C: 1/day - Crowdsource Chat & Ticket Support)": {
-        "platform_key": "ModSquad / Influx",
+    "MotionArt / ModSquad (Track C: 1/day - YouTube Scripts & Ticket Moderation)": {
+        "platform_key": "MotionArt / ModSquad",
         "track": "track_c_gigs",
         "url": "https://join.modsquad.com/",
         "filters": [
-            "1. ModSquad: Apply as Remote Independent Contractor (Mod)",
-            "2. Influx (influx.com/careers): Apply for Worldwide Support Agent",
+            "1. MotionArt: YouTube Scriptwriting ($40/script, fast turnarounds)",
+            "2. ModSquad: Remote Independent Contractor (Mod)",
+            "3. Influx (influx.com/careers): Worldwide Support Agent",
         ],
         "cv_recommended": "Muhammed_Nafiu_Resume.pdf (Operations & VA Resume)",
         "cv_path": OPS_CV_PATH,
@@ -227,7 +205,7 @@ TRACK_CHOICES = [
 ]
 
 TRACK_LABELS = {
-    "track_a_tech": "Track A: Tech Support, IT, QA & AI Ops (9/day)",
-    "track_b_basic": "Track B: Basic Customer Support & Ops (10/day)",
+    "track_a_tech": "Track A: Tech Support, IT, QA & AI Ops (15/day)",
+    "track_b_basic": "Track B: Basic Customer Support & Ops (4/day)",
     "track_c_gigs": "Track C: Fast Writing & Crowdsource Gigs (4/day)",
 }
